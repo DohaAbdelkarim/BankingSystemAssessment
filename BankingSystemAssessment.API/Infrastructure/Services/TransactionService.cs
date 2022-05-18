@@ -34,41 +34,42 @@ namespace BankingSystemAssessment.API.Infrastructure.Services
             _validationService = validationService ?? throw new ArgumentNullException(nameof(validationService));
         }
 
-        public async Task<Transaction> CreateDepositAsync(Account account, decimal credit)
+        public async Task<Transaction> CreateDepositAsync(Account account, decimal credit, bool initialCredit = false)
         {
-            try
+            if (initialCredit)//Validation in case the account isn't created yet
             {
                 if (account == null || account.Status != AccountStatus.Active.ToString())
                 {
                     _logger.LogInformation(LogEvents.InsertItem, $"BadRequest Error.Deposit can't be made. Invalid account");
                     throw new ApiException(HttpStatusCode.BadRequest, TransactionErrorCodes.InvalidAccountForDepositTransaction.ToString());
                 }
-
-                var deposit = new Transaction
-                {
-                    AccountId = account.Id,
-                    ReferenceNumber = TransactionReferenceNumberHelper.GenerateTransactionReferenceNumber(),
-                    Description = $"Deposit {credit} {account.Currency}",
-                    TransactionDate = DateTimeOffset.Now,
-                    Credit = credit,
-                    Debit = 0,
-                    TranscationType = TranscationType.Deposit.ToString(),
-                    BalanceAfter = account.Balance + credit
-                };
-
-                //update customer account
-                deposit.Account = account;
-                deposit.Account.Balance += deposit.Credit;
-
-                await _context.PostAsync(deposit, _logger);
-
-                _logger.LogInformation($"Transaction {deposit.ReferenceNumber} of type {deposit.TranscationType} is made for account number: {account.AccountNumber} successfully.");
-                return deposit;
             }
-            catch(Exception ex)
+            else
             {
-                return null;
+                //validate that the account exists and active
+                await _validationService.ValidateAccountAsync(account.Id);
             }
+
+            var deposit = new Transaction
+            {
+                AccountId = account.Id,
+                ReferenceNumber = TransactionReferenceNumberHelper.GenerateTransactionReferenceNumber(),
+                Description = $"Deposit {credit} {account.Currency}",
+                TransactionDate = DateTimeOffset.Now,
+                Credit = credit,
+                Debit = 0,
+                TranscationType = TranscationType.Deposit.ToString(),
+                BalanceAfter = account.Balance + credit
+            };
+
+            //update customer account
+            deposit.Account = account;
+            deposit.Account.Balance += deposit.Credit;
+
+            await _context.PostAsync(deposit, _logger);
+
+            _logger.LogInformation($"Transaction {deposit.ReferenceNumber} of type {deposit.TranscationType} is made for account number: {account.AccountNumber} successfully.");
+            return deposit;
         }
 
         private void ParseSearchTransactionDates(ref DateTime? searchFromDate, ref DateTime? searchToDate, string transactionDateFrom = null, string transactionDateTo = null)
@@ -99,7 +100,7 @@ namespace BankingSystemAssessment.API.Infrastructure.Services
             await _validationService.ValidateAccountAsync(accountId);
 
             DateTime? searchFromDate = null, searchToDate = null;
-            ParseSearchTransactionDates(ref searchFromDate,ref searchToDate, transactionDateFrom, transactionDateTo);
+            ParseSearchTransactionDates(ref searchFromDate, ref searchToDate, transactionDateFrom, transactionDateTo);
 
             int page = (filterModel.PageIndex - 1) * filterModel.PageSize;
             if (page < 0)

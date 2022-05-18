@@ -7,7 +7,7 @@ namespace BankingSystemAssessment.API.Infrastructure.Services
 {
     public interface ITransactionService
     {
-        Task<Transaction> CreateDepositAsync(Account account, decimal credit);
+        Task<Transaction> CreateDepositAsync(Account account, decimal credit, bool initialCredit);
         Task<PagedResponse<TransactionModel>> GetTransactionsAsync(int accountId, FilterModel filterModel, string transactionDateFrom = null, string transactionDateTo = null);
     }
 }

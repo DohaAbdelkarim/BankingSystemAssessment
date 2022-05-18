@@ -43,7 +43,7 @@ namespace BankingSystemAssessment.API.Infrastructure.Services
 
             if (createAccountRequestModel.InitialCredit > 0)
             {
-                var deposit = await _transactionService.CreateDepositAsync(account, createAccountRequestModel.InitialCredit);
+                var deposit = await _transactionService.CreateDepositAsync(account, createAccountRequestModel.InitialCredit, true);
             }
             else
             {
