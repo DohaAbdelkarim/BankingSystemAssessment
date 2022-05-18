@@ -9,11 +9,11 @@ namespace BankingSystemAssessment.UnitTest.Account
     public class CreateAccountTest
     {
         [Theory]
-        [InlineData(2, 5000)]
-        public async Task CreateAccount_ReturnCreateAccountResponseModel(int customerId, decimal initialCredit)
+        [InlineData("1230542612688857", 5000)]
+        public async Task CreateAccount_ReturnCreateAccountResponseModel(string customerID, decimal initialCredit)
         {
             //Arrange
-            var createAccountRequestModel = new CreateAccountRequestModel(customerId, initialCredit);
+            var createAccountRequestModel = new CreateAccountRequestModel(customerID, initialCredit);
             var accountService = TestFactories.AccountServiceTestFactory();
 
             // Act
@@ -25,11 +25,11 @@ namespace BankingSystemAssessment.UnitTest.Account
         }
 
         [Theory]
-        [InlineData(500, 0)]
-        public async Task CreateAccount_InvalidCustomerId_ReturnNotFound(int customerId, decimal initialCredit)
+        [InlineData("1234542612688851", 0)]
+        public async Task CreateAccount_InvalidCustomerId_ReturnNotFound(string customerID, decimal initialCredit)
         {
             // Arrange
-            var createAccountRequestModel = new CreateAccountRequestModel(customerId, initialCredit);
+            var createAccountRequestModel = new CreateAccountRequestModel(customerID, initialCredit);
             var accountService = TestFactories.AccountServiceTestFactory();
 
             // Act

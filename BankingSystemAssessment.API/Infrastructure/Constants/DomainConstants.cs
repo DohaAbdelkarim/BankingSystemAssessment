@@ -10,7 +10,8 @@
         }
 
         public static class Customer
-        {
+        {            
+            public const int CustomerIDLength = 16;
             public const int FirstNameMaxLength = 50;
             public const int LastNameMaxLength = 50;
             public const int MobileMaxLength = 11;

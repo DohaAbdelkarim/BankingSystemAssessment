@@ -15,8 +15,8 @@ namespace BankingSystemAssessment.API.Infrastructure
 
         private static void SeedCustomerRecords(BankingSystemContext bankingSystemContext)
         {
-            bankingSystemContext.Customer.Add(new Domain.Customer { Id = 1, FirstName = "Doha", LastName = "Abdelkarim", Email = "doha.hamed.mohamed@gmail.com", Mobile = "01022515455", Address = "Nasr city" });
-            bankingSystemContext.Customer.Add(new Domain.Customer { Id = 2, FirstName = "Peter", LastName = "Adel", Email = "Peter.Adel@gmail.com", Mobile = "01188961227", Address = "New cairo" });
+            bankingSystemContext.Customer.Add(new Domain.Customer { Id = 1, FirstName = "Doha", LastName = "Abdelkarim", Email = "doha.hamed.mohamed@gmail.com", Mobile = "01022515455", Address = "Nasr city", CustomerID = "1234542612688859" });
+            bankingSystemContext.Customer.Add(new Domain.Customer { Id = 2, FirstName = "Peter", LastName = "Adel", Email = "Peter.Adel@gmail.com", Mobile = "01188961227", Address = "New cairo", CustomerID = "1230542612688857" });
         }
 
         private static void SeedAccountRecords(BankingSystemContext bankingSystemContext)

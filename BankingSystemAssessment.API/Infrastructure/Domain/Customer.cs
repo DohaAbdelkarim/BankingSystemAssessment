@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BankingSystemAssessment.API.Infrastructure.Domain
 {
+    [Index(nameof(CustomerID), IsUnique = true)]
     public class Customer
     {
         public Customer()
@@ -14,6 +17,10 @@ namespace BankingSystemAssessment.API.Infrastructure.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
+        [StringLength(DomainConstants.Customer.CustomerIDLength,MinimumLength = (DomainConstants.Customer.CustomerIDLength))]
+        public string CustomerID { get; set; }
+        
         [Required]
         [MaxLength(DomainConstants.Customer.FirstNameMaxLength)]
         public string FirstName { get; set; }

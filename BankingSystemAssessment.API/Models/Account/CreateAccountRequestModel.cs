@@ -3,13 +3,13 @@
     public class CreateAccountRequestModel
     {
         public CreateAccountRequestModel() { }
-        public CreateAccountRequestModel(int customerId, decimal initialCredit)
+        public CreateAccountRequestModel(string customerID, decimal initialCredit)
         {
-            CustomerId = customerId;
+            CustomerID = customerID;
             InitialCredit = initialCredit;
         }
 
-        public int CustomerId { get; set; }
+        public string CustomerID { get; set; }
         public decimal InitialCredit { get; set; }
     }
 }

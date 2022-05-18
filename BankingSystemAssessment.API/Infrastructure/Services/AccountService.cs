@@ -29,7 +29,7 @@ namespace BankingSystemAssessment.API.Infrastructure.Services
 
         public async Task<CreateAccountResponseModel> CreateAccountAsync(CreateAccountRequestModel createAccountRequestModel)
         {
-            var customer = await _validationService.ValidateCustomerAsync(createAccountRequestModel.CustomerId);
+            var customer = await _validationService.ValidateCustomerAsync(createAccountRequestModel.CustomerID);
 
             //Generate account number and make sure it's unique
             string generatedAccountNumber = string.Empty;
@@ -40,6 +40,7 @@ namespace BankingSystemAssessment.API.Infrastructure.Services
 
             Account account = _mapper.Map<Account>(createAccountRequestModel);
             account.AccountNumber = generatedAccountNumber;
+            account.CustomerId = customer.Id;
 
             if (createAccountRequestModel.InitialCredit > 0)
             {

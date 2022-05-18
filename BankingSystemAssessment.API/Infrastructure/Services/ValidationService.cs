@@ -34,6 +34,18 @@ namespace BankingSystemAssessment.API.Infrastructure.Services
             return customer;
         }
 
+        public async Task<Customer> ValidateCustomerAsync(string customerID)
+        {
+            var customer = await _context.Customer.AsNoTracking().Where(s => s.CustomerID.Contains(customerID)).FirstOrDefaultAsync();
+
+            if (customer == null)
+            {
+                _logger.LogInformation(LogEvents.GetItemNotFound, $"Customer with ID {customerID} doesn't exist.");
+                throw new NotFoundException();
+            }
+            return customer;
+        }
+
         public async Task<Account> ValidateAccountAsync(int accountId)
         {
             var account = await _context.Account.AsNoTracking().Where(s => s.Id == accountId).FirstOrDefaultAsync();

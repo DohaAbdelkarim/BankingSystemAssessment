@@ -10,6 +10,9 @@ namespace BankingSystemAssessment.API.Infrastructure.Mapping
         {
             CreateMap<Customer, CustomerDetailsModel>()
                 .ForPath(destination => destination.Accounts, options => options.MapFrom(source => source.Account));
+
+            CreateMap<Customer, CustomerIndexModel>()
+              .ForMember(destination => destination.CustomerName, options => options.MapFrom(source => $"{source.FirstName} {source.LastName}"));
         }
     }
 }

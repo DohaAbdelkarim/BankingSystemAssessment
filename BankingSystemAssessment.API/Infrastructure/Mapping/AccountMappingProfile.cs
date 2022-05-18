@@ -11,7 +11,7 @@ namespace BankingSystemAssessment.API.Infrastructure.Mapping
         public AccountMappingProfile()
         {
             CreateMap<CreateAccountRequestModel, Account>()
-                .ForMember(destination => destination.CustomerId, options => options.MapFrom(source => source.CustomerId))
+                .ForMember(destination => destination.CustomerId, options => options.MapFrom(source => 0))
                 .ForMember(destination => destination.Balance, options => options.MapFrom(source => 0))
                 .ForMember(destination => destination.Status, options => options.MapFrom(source => AccountStatus.Active.ToString()))
                 .ForMember(destination => destination.CreatedDate, options => options.MapFrom(source => DateTimeOffset.Now.Date))
