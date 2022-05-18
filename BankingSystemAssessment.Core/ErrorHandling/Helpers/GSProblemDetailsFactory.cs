@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Polly.CircuitBreaker;
 using System;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace BankingSystemAssessment.Core.ErrorHandling.Helpers
@@ -74,6 +76,15 @@ namespace BankingSystemAssessment.Core.ErrorHandling.Helpers
                     using (_logger.BeginScope(JsonSerializer.Serialize(problemDetails)))
                     {
                         _logger.Log(apiException.LogLevel(), $"Api exception caught in the middleware. Returned with status code {(int)apiException.StatusCode}.");
+                    }
+                }
+                else if (context.Error is BrokenCircuitException brokenCircuitException)
+                {
+                    var exception = (HttpRequestException)brokenCircuitException.InnerException;
+                    using (_logger.BeginScope(JsonSerializer.Serialize(problemDetails)))
+                    {
+                        _logger.LogError(brokenCircuitException, $"brokenCircuitException exception caught in the middleware. with StatusCode: {(exception?.StatusCode != null ? (int)exception.StatusCode : -1)}," +
+                            $"Error:{exception?.Message}. {brokenCircuitException.Message}.");
                     }
                 }
                 else //unhandled exception

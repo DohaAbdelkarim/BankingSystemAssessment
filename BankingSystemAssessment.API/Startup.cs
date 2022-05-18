@@ -1,6 +1,7 @@
 using BankingSystemAssessment.API.Infrastructure;
 using BankingSystemAssessment.API.Infrastructure.Extensions;
 using BankingSystemAssessment.API.Infrastructure.Services;
+using BankingSystemAssessment.Core.ErrorHandling.Extensions;
 using BankingSystemAssessment.Core.ErrorHandling.Helpers;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -46,10 +47,11 @@ namespace BankingSystemAssessment.API
             services.AddAutoMapper(Assembly.GetEntryAssembly(), typeof(Startup).Assembly);
             services.AddMediatR(Assembly.GetEntryAssembly(), typeof(Startup).Assembly);
 
+            services.UsePollyPolicies(Configuration);
+
             services.Configure<SwaggerUIOptions>(Configuration.GetSection("SwaggerUI"));
             services.Configure<SwaggerGenOptions>(Configuration.GetSection("SwaggerGen"));
             services.AddSwaggerGen();
-
 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IValidationService, ValidationService>();
