@@ -96,7 +96,7 @@ namespace BankingSystemAssessment.API
             var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
             var serviceScope = serviceScopeFactory.CreateScope();
             var dbContext = serviceScope.ServiceProvider.GetService<BankingSystemContext>();
-            if (dbContext.Database.IsSqlite())
+            if (dbContext.Database.IsSqlServer())
             {
                 app.Migrate();
             }
