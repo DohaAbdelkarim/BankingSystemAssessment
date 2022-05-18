@@ -4,6 +4,7 @@
     {
         CustomerIdRequired,
         InvalidCustomerId,
-        InvalidInitialCredit
+        InvalidInitialCredit,
+        NotActiveAccount
     }
 }

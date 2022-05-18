@@ -6,9 +6,9 @@ using System;
 
 namespace BankingSystemAssessment.API.Infrastructure.Mapping
 {
-    public class CustomerMappingProfile : Profile
+    public class AccountMappingProfile : Profile
     {
-        public CustomerMappingProfile()
+        public AccountMappingProfile()
         {
             CreateMap<CreateAccountRequestModel, Account>()
                 .ForMember(destination => destination.CustomerId, options => options.MapFrom(source => source.CustomerId))
@@ -17,6 +17,9 @@ namespace BankingSystemAssessment.API.Infrastructure.Mapping
                 .ForMember(destination => destination.CreatedDate, options => options.MapFrom(source => DateTimeOffset.Now.Date))
                 //Assume the bank in Egypt and the default account currency will be EGP
                 .ForMember(destination => destination.Currency, options => options.MapFrom(source => Currency.EGP.ToString()));
+            
+            CreateMap<Account, AccountModel>()
+                .ForPath(destination => destination.Transactions, options => options.MapFrom(source => source.Transaction));
         }
     }
 }

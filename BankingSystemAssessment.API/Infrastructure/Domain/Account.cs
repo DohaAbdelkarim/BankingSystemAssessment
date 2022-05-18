@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,6 +7,11 @@ namespace BankingSystemAssessment.API.Infrastructure.Domain
 {
     public class Account
     {
+        public Account()
+        {
+            Transaction = new HashSet<Transaction>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -33,5 +39,6 @@ namespace BankingSystemAssessment.API.Infrastructure.Domain
         public DateTime CreatedDate { get; set; }
 
         public Customer Customer { get; set; }
+        public virtual ICollection<Transaction> Transaction { get; set; }
     }
 }

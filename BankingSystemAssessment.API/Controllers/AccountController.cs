@@ -18,7 +18,11 @@ namespace BankingSystemAssessment.API.Controllers
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
-
+        /// <summary>
+        /// create account for existed customer
+        /// </summary>
+        /// <param name="createAccountRequestModel">Model include CustomerID, InitialCredit</param>
+        /// <returns>Accepted http response with createAccountResponseModel that contains the created account Id</returns>
         [HttpPost]
         [ProducesResponseType(typeof(CreateAccountResponseModel), StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

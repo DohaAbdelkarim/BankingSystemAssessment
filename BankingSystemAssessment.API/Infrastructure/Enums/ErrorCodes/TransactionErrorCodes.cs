@@ -2,6 +2,8 @@
 {
     public enum TransactionErrorCodes
     {
-        InvalidAccount        
+        InvalidAccountId,
+        InvalidTransactionDateSearchPeriod,
+        InvalidAccountForDepositTransaction
     }
 }

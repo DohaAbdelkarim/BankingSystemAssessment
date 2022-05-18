@@ -54,6 +54,7 @@ namespace BankingSystemAssessment.API
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IValidationService, ValidationService>();
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<ICustomerService, CustomerService>();
 
             services.AddCors(options =>
             {

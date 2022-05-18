@@ -6,5 +6,6 @@ namespace BankingSystemAssessment.API.Infrastructure.Services
     public interface IValidationService
     {
         Task<Customer> ValidateCustomerAsync(int customerId);
+        Task<Account> ValidateAccountAsync(int accountId);
     }
 }

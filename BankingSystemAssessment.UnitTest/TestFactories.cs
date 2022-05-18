@@ -33,7 +33,24 @@ namespace BankingSystemAssessment.UnitTest
         {
             var context = BankingSystemContextMock.GetDBContext();
             var loggerMock = new Mock<ILogger<TransactionService>>();
-            return new TransactionService(context, loggerMock.Object);
+            var mapperMock = new MapperConfiguration(cfg =>
+            {
+                cfg.AddMaps(Assembly.GetEntryAssembly(), typeof(Startup).Assembly);
+            });
+            var mapper = mapperMock.CreateMapper();
+            return new TransactionService(context, loggerMock.Object, mapper, ValidationServiceTestFactory());
+        }
+
+        public static CustomerService CustomerServiceTestFactory()
+        {
+            var context = BankingSystemContextMock.GetDBContext();
+            var loggerMock = new Mock<ILogger<CustomerService>>();
+            var mapperMock = new MapperConfiguration(cfg =>
+            {
+                cfg.AddMaps(Assembly.GetEntryAssembly(), typeof(Startup).Assembly);
+            });
+            var mapper = mapperMock.CreateMapper();
+            return new CustomerService(context, loggerMock.Object, mapper);
         }
     }
 }

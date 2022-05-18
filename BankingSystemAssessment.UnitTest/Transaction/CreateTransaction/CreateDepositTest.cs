@@ -12,7 +12,7 @@ namespace BankingSystemAssessment.UnitTest.Transaction
     {
         public static IEnumerable<object[]> Account_ValidModel()
         {
-            yield return new object[] { new API.Infrastructure.Domain.Account { Id = 4,
+            yield return new object[] { new API.Infrastructure.Domain.Account { Id = 0,
                 CustomerId = 2, AccountNumber = "100078592285", Balance = 0,
                 Currency = Currency.EGP.ToString(),
                 Status = AccountStatus.Active.ToString(),
