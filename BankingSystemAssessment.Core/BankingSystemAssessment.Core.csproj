@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+	<RepositoryUrl>https://github.com/DohaAbdelkarim/BankingSystemAssessment</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <Authors>Doha Abdelkarim</Authors>
+    <Product>BankingSystemAssessmentCore</Product>
   </PropertyGroup>
 
   <ItemGroup>
