@@ -1,0 +1,28 @@
+﻿@page
+@model ErrorModel
+@{}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+
+<h5>CorrelationId: <code>@Model.ErrorResult.CorrelationId</code></h5>
+<h5>TraceId: <code>@Model.ErrorResult.TraceId</code></h5>
+
+@if (Model.ErrorResult.Exception != null)
+{
+    <h5>ErrorPageErrorCode: <code>@Model.ErrorResult.Exception.ErrorCode</code></h5>
+    <h5>ErrorPageErrorMessage: <code>@Model.ErrorResult.Exception.ErrorMessage</code></h5>
+}
+
+@if (Model.ErrorResult.Errors != null && Model.ErrorResult.Errors.Any())
+{
+    <h5>ErrorPageValidationErrors:</h5>
+    <ul>
+        @foreach (var validationError in Model.ErrorResult.Errors)
+        {
+        <li>
+            <code>@validationError.Key - @String.Join(" ", @validationError.Value.ToList())</code>
+        </li>
+        }
+    </ul>
+}

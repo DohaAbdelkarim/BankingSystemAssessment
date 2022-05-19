@@ -1,0 +1,39 @@
+﻿@page
+@model CreateAccountModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create New Account</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="createAccountRequestModel.CustomerID" class="control-label">CustomerID</label>
+                <input asp-for="createAccountRequestModel.CustomerID" class="form-control" />
+                <span asp-validation-for="createAccountRequestModel.CustomerID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="createAccountRequestModel.InitialCredit" class="control-label">Initial Credit</label>
+                <input asp-for="createAccountRequestModel.InitialCredit" class="form-control" />
+                <span asp-validation-for="createAccountRequestModel.InitialCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="/Customer/Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
