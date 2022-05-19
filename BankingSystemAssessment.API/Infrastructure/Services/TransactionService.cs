@@ -132,14 +132,16 @@ namespace BankingSystemAssessment.API.Infrastructure.Services
             else
             {
                 transactions = await _context.Transaction.AsNoTracking()
-                                .Sort(sortPredicate, filterModel.SortOrder)
-                                .Skip(page).Take(filterModel.PageSize)
                                 .Where(s => s.AccountId == accountId &&
                                 (searchFromDate == null || (searchFromDate != null && s.TransactionDate.Date >= searchFromDate)) &&
                                 (searchToDate == null || (searchToDate != null && s.TransactionDate.Date <= searchToDate)))
+                                .Sort(sortPredicate, filterModel.SortOrder)
+                                .Skip(page).Take(filterModel.PageSize)
                                 .ToListAsync();
 
-                totalTransactionsCount = await _context.Transaction.CountAsync();
+                totalTransactionsCount = await _context.Transaction.CountAsync(s => s.AccountId == accountId &&
+                                (searchFromDate == null || (searchFromDate != null && s.TransactionDate.Date >= searchFromDate)) &&
+                                (searchToDate == null || (searchToDate != null && s.TransactionDate.Date <= searchToDate)));
             }
 
             if (!transactions.Any())
