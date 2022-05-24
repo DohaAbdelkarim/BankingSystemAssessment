@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System;
 using System.Reflection;
 
 namespace BankingSystemAssessment.API
@@ -42,6 +43,11 @@ namespace BankingSystemAssessment.API
 
             //GSProblemDetailsFactory in Core.ErrorHandling, override CreateProblemDetails to manipulate the error response
             services.AddTransient<ProblemDetailsFactory, GSProblemDetailsFactory>();
+          
+            services.AddHeaderPropagation(options =>
+            {
+                options.Headers.Add(Core.ErrorHandling.Constants.CorrelationIdHeaderKey);
+            });
 
             services.AddAutoMapper(Assembly.GetEntryAssembly(), typeof(Startup).Assembly);
             services.AddMediatR(Assembly.GetEntryAssembly(), typeof(Startup).Assembly);
@@ -79,6 +85,17 @@ namespace BankingSystemAssessment.API
 
             app.UseSwagger();
             app.UseSwaggerUI();
+
+            app.Use((context, next) =>
+            {
+                var headers = context.Request.Headers;
+                if (!headers.ContainsKey(Core.ErrorHandling.Constants.CorrelationIdHeaderKey))
+                {
+                    headers[Core.ErrorHandling.Constants.CorrelationIdHeaderKey] = Guid.NewGuid().ToString();
+                }
+                context.Response.Headers[Core.ErrorHandling.Constants.CorrelationIdHeaderKey] = headers[Core.ErrorHandling.Constants.CorrelationIdHeaderKey];
+                return next.Invoke();
+            });
 
             app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
